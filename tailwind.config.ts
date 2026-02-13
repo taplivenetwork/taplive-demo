@@ -48,6 +48,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)"],
         display: ["var(--font-display)"],
+        mono: ["var(--font-mono)"],
       },
       keyframes: {
         "fade-in": {
@@ -58,10 +59,20 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "pulse-ring": {
+          "0%": { transform: "scale(0.8)", opacity: "1" },
+          "100%": { transform: "scale(2.2)", opacity: "0" },
+        },
+        "scan": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "slide-up": "slide-up 0.6s ease-out forwards",
+        "pulse-ring": "pulse-ring 2s ease-out infinite",
+        "scan": "scan 2s ease-in-out infinite",
       },
     },
   },

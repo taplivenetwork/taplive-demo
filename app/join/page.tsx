@@ -37,22 +37,24 @@ function JoinFormInner() {
   }
 
   return (
-    <div className="dark noise-bg flex min-h-screen flex-col items-center justify-center bg-background px-4 text-foreground">
+    <div className="dark noise-bg flex min-h-screen flex-col items-center justify-center px-4 text-foreground" style={{ backgroundColor: "#050505" }}>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 right-1/3 h-[400px] w-[400px] rounded-full bg-primary/6 blur-[100px]" />
+        <div className="absolute -top-40 right-1/3 h-[400px] w-[400px] rounded-full bg-[rgba(0,255,163,0.03)] blur-[120px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-sm">
-        <Link href="/" className="mb-8 flex items-center justify-center gap-2">
-          <Radio className="h-6 w-6 text-primary" />
-          <span className="font-display text-2xl">TapLive</span>
+        <Link href="/" className="mb-8 flex items-center justify-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#00FFA3] shadow-[0_0_15px_rgba(0,255,163,0.3)]">
+            <Radio className="h-4 w-4 text-[#050505]" />
+          </div>
+          <span className="text-2xl font-bold">TapLive</span>
         </Link>
 
-        <div className="rounded-xl border border-border/60 bg-card/60 p-6 shadow-2xl backdrop-blur-sm">
-          <h1 className="text-xl font-semibold">
+        <div className="glass-strong rounded-2xl p-6 glow-primary-sm">
+          <h1 className="text-xl font-bold text-white/90">
             {mode === "signin" ? "Welcome back" : "Create an account"}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-white/35">
             {mode === "signin"
               ? "Sign in to continue"
               : "Join TapLive as a customer or provider"}
@@ -61,30 +63,28 @@ function JoinFormInner() {
           <form action={handleSubmit} className="mt-6 space-y-4">
             {mode === "signup" && (
               <div className="space-y-2">
-                <Label htmlFor="displayName">Display name</Label>
+                <Label htmlFor="displayName" className="text-xs uppercase tracking-wider text-white/35">Display name</Label>
                 <Input
                   id="displayName"
                   name="displayName"
                   placeholder="Your name"
-                  className="bg-background/50"
                 />
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-xs uppercase tracking-wider text-white/35">Email</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 placeholder="you@example.com"
                 required
-                className="bg-background/50"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-xs uppercase tracking-wider text-white/35">Password</Label>
               <Input
                 id="password"
                 name="password"
@@ -92,7 +92,6 @@ function JoinFormInner() {
                 placeholder="••••••••"
                 required
                 minLength={6}
-                className="bg-background/50"
               />
             </div>
 
@@ -111,13 +110,13 @@ function JoinFormInner() {
             </Button>
           </form>
 
-          <div className="mt-4 text-center text-sm text-muted-foreground">
+          <div className="mt-4 text-center text-sm text-white/35">
             {mode === "signin" ? (
               <>
                 Don&apos;t have an account?{" "}
                 <button
                   onClick={() => setMode("signup")}
-                  className="font-medium text-primary hover:underline"
+                  className="font-medium text-[#00FFA3] hover:underline"
                 >
                   Sign up
                 </button>
@@ -127,7 +126,7 @@ function JoinFormInner() {
                 Already have an account?{" "}
                 <button
                   onClick={() => setMode("signin")}
-                  className="font-medium text-primary hover:underline"
+                  className="font-medium text-[#00FFA3] hover:underline"
                 >
                   Sign in
                 </button>
@@ -138,7 +137,7 @@ function JoinFormInner() {
 
         <Link
           href="/"
-          className="mt-6 flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="mt-6 flex items-center justify-center gap-1.5 text-sm text-white/25 hover:text-white/50 transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to home

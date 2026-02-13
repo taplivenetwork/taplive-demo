@@ -11,6 +11,7 @@ import {
   DollarSign,
   Globe,
   Loader2,
+  Video,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,14 +59,12 @@ function RequestFormInner() {
 
     setLoading(true);
 
-    // Check auth first
     const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     if (!user) {
-      // Store form data in sessionStorage, redirect to join
       if (typeof window !== "undefined") {
         sessionStorage.setItem("pendingRequest", JSON.stringify(form));
       }
@@ -73,7 +72,6 @@ function RequestFormInner() {
       return;
     }
 
-    // Create order
     const { error } = await supabase.from("orders").insert({
       customer_id: user.id,
       location_text: form.location_text,
@@ -91,11 +89,7 @@ function RequestFormInner() {
     setLoading(false);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
       return;
     }
 
@@ -104,54 +98,57 @@ function RequestFormInner() {
   }
 
   return (
-    <div className="dark noise-bg min-h-screen bg-background text-foreground">
-      <nav className="border-b border-border/40 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-lg font-semibold"
-          >
-            <Radio className="h-5 w-5 text-primary" />
-            <span className="font-display text-xl">TapLive</span>
+    <div className="dark noise-bg min-h-screen text-foreground" style={{ backgroundColor: "#050505" }}>
+      {/* Nav */}
+      <nav className="border-b border-[rgba(255,255,255,0.06)] bg-[rgba(5,5,5,0.8)] backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#00FFA3] shadow-[0_0_12px_rgba(0,255,163,0.3)]">
+              <Radio className="h-3.5 w-3.5 text-[#050505]" />
+            </div>
+            <span className="text-lg font-bold tracking-tight">TapLive</span>
           </Link>
           <Link href="/join">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
               Sign in
             </Button>
           </Link>
         </div>
       </nav>
 
-      <div className="mx-auto max-w-xl px-4 py-12">
+      <div className="mx-auto max-w-xl px-5 py-12">
         <Link
           href="/"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white/60 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to home
         </Link>
 
-        <h1 className="font-display text-3xl tracking-tight">
-          Create a request
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          Describe what you need. A local provider will pick it up.
-        </p>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(0,255,163,0.15)] bg-[rgba(0,255,163,0.06)]">
+            <Video className="h-5 w-5 text-[#00FFA3]" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Create a live request</h1>
+            <p className="text-sm text-white/35">Describe what you need. A local provider will go live for you.</p>
+          </div>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 glass-strong rounded-2xl p-6 space-y-5">
           {/* Location */}
           <div className="space-y-2">
-            <Label htmlFor="location">
-              Location <span className="text-destructive">*</span>
+            <Label htmlFor="location" className="text-xs uppercase tracking-wider text-white/35">
+              Location <span className="text-[#00FFA3]">*</span>
             </Label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <MapPin className="absolute left-3 top-3 h-4 w-4 text-white/20" />
               <Input
                 id="location"
                 placeholder="e.g., Tokyo, Shibuya crossing"
                 value={form.location_text}
                 onChange={(e) => update("location_text", e.target.value)}
-                className="bg-card/50 pl-9"
+                className="pl-9"
                 required
               />
             </div>
@@ -159,14 +156,11 @@ function RequestFormInner() {
 
           {/* Category */}
           <div className="space-y-2">
-            <Label>
-              Category <span className="text-destructive">*</span>
+            <Label className="text-xs uppercase tracking-wider text-white/35">
+              Category <span className="text-[#00FFA3]">*</span>
             </Label>
-            <Select
-              value={form.category}
-              onValueChange={(v) => update("category", v)}
-            >
-              <SelectTrigger className="bg-card/50">
+            <Select value={form.category} onValueChange={(v) => update("category", v)}>
+              <SelectTrigger>
                 <SelectValue placeholder="What do you need?" />
               </SelectTrigger>
               <SelectContent>
@@ -180,60 +174,54 @@ function RequestFormInner() {
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">
-              Description <span className="text-destructive">*</span>
+            <Label htmlFor="description" className="text-xs uppercase tracking-wider text-white/35">
+              Description <span className="text-[#00FFA3]">*</span>
             </Label>
             <Textarea
               id="description"
               placeholder="Tell the provider exactly what you need..."
               value={form.description}
               onChange={(e) => update("description", e.target.value)}
-              className="min-h-[100px] bg-card/50"
+              className="min-h-[100px]"
               required
             />
           </div>
 
           {/* Preferred time */}
           <div className="space-y-2">
-            <Label htmlFor="time">Preferred time</Label>
+            <Label htmlFor="time" className="text-xs uppercase tracking-wider text-white/35">Preferred time</Label>
             <div className="relative">
-              <Clock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Clock className="absolute left-3 top-3 h-4 w-4 text-white/20" />
               <Input
                 id="time"
                 placeholder="e.g., Tomorrow morning, ASAP"
                 value={form.preferred_time_text}
                 onChange={(e) => update("preferred_time_text", e.target.value)}
-                className="bg-card/50 pl-9"
+                className="pl-9"
               />
             </div>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {/* Budget */}
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="budget">Budget (USD)</Label>
+              <Label htmlFor="budget" className="text-xs uppercase tracking-wider text-white/35">Budget (USD)</Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-white/20" />
                 <Input
                   id="budget"
                   type="number"
                   placeholder="Optional"
                   value={form.budget_usd}
                   onChange={(e) => update("budget_usd", e.target.value)}
-                  className="bg-card/50 pl-9"
+                  className="pl-9"
                   min="0"
                 />
               </div>
             </div>
-
-            {/* Duration */}
             <div className="space-y-2">
-              <Label>Duration (minutes)</Label>
-              <Select
-                value={form.duration_minutes}
-                onValueChange={(v) => update("duration_minutes", v)}
-              >
-                <SelectTrigger className="bg-card/50">
+              <Label className="text-xs uppercase tracking-wider text-white/35">Duration</Label>
+              <Select value={form.duration_minutes} onValueChange={(v) => update("duration_minutes", v)}>
+                <SelectTrigger>
                   <SelectValue placeholder="How long?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -248,29 +236,27 @@ function RequestFormInner() {
 
           {/* Language */}
           <div className="space-y-2">
-            <Label htmlFor="lang">Language preference</Label>
+            <Label htmlFor="lang" className="text-xs uppercase tracking-wider text-white/35">Language preference</Label>
             <div className="relative">
-              <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Globe className="absolute left-3 top-3 h-4 w-4 text-white/20" />
               <Input
                 id="lang"
                 placeholder="e.g., English, Japanese"
                 value={form.language_preference}
                 onChange={(e) => update("language_preference", e.target.value)}
-                className="bg-card/50 pl-9"
+                className="pl-9"
               />
             </div>
           </div>
 
-          <Button
-            type="submit"
-            size="lg"
-            className="w-full gap-2"
-            disabled={loading}
-          >
+          <Button type="submit" size="lg" className="w-full gap-2" disabled={loading}>
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              "Submit request"
+              <>
+                <Video className="h-4 w-4" />
+                Submit live request
+              </>
             )}
           </Button>
         </form>
@@ -283,8 +269,8 @@ export default function RequestPage() {
   return (
     <Suspense
       fallback={
-        <div className="dark min-h-screen bg-background flex items-center justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        <div className="dark min-h-screen flex items-center justify-center" style={{ backgroundColor: "#050505" }}>
+          <Loader2 className="h-6 w-6 animate-spin text-[#00FFA3]" />
         </div>
       }
     >

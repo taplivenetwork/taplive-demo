@@ -198,7 +198,7 @@ export default function ProviderOnboardingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        <Loader2 className="h-6 w-6 animate-spin text-[#00FFA3]" />
       </div>
     );
   }
@@ -229,7 +229,7 @@ export default function ProviderOnboardingPage() {
             {i < STEPS.length - 1 && (
               <div
                 className={`h-0.5 flex-1 rounded ${
-                  i < step ? "bg-primary" : "bg-border"
+                  i < step ? "bg-[#00FFA3]" : "bg-[rgba(255,255,255,0.06)]"
                 }`}
               />
             )}
@@ -241,7 +241,7 @@ export default function ProviderOnboardingPage() {
           <div
             key={s.id}
             className={`flex-1 text-center text-xs ${
-              i === step ? "text-foreground font-medium" : "text-muted-foreground"
+              i === step ? "text-white/80 font-medium" : "text-white/25"
             }`}
           >
             <span className="hidden sm:inline">{s.label}</span>
@@ -250,7 +250,7 @@ export default function ProviderOnboardingPage() {
       </div>
 
       {/* Form sections */}
-      <div className="mt-8 rounded-xl border bg-card p-6">
+      <div className="mt-8 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-6">
         {/* Step 0: Basic */}
         {step === 0 && (
           <div className="space-y-4">
